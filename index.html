@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Envíos Benito SPA — Chile → Bolivia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F2438;
+    --bg-deep: #0A1826;
+    --surface: #16324A;
+    --surface-2: #1D3E59;
+    --text: #F5F0E6;
+    --text-dim: #B9C6D2;
+    --gold: #E8A94B;
+    --red: #C23B3B;
+    --green: #4E9B6B;
+    --line: rgba(245,240,230,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(232,169,75,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(78,155,107,0.08), transparent 55%);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap{max-width: 960px; margin: 0 auto; padding: 0 24px;}
+  ::selection{background: var(--gold); color: var(--bg-deep);}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky; top:0; z-index:50; backdrop-filter: blur(10px); background: rgba(15,36,56,0.75); border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding: 14px 24px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size:1.15rem; letter-spacing:0.01em;}
+  .brand .dot{width:9px; height:9px; border-radius:50%; background: var(--gold); box-shadow: 0 0 10px var(--gold);}
+  .nav-cta{background: var(--red); color:#fff; border:none; padding:9px 18px; border-radius:100px; font-weight:600; font-size:0.85rem; cursor:pointer; font-family:'Inter',sans-serif;}
+
+  /* ---------- HERO / RATE BOARD ---------- */
+  header.hero{padding: 56px 0 40px;}
+  .eyebrow{font-family:'Space Mono', monospace; text-transform:uppercase; letter-spacing:0.15em; font-size:0.72rem; color: var(--gold); margin:0 0 14px;}
+  h1{font-family:'Fraunces', serif; font-weight:600; font-size: clamp(2rem, 5.5vw, 3.4rem); line-height:1.04; margin:0 0 16px; letter-spacing:-0.01em;}
+  h1 em{font-style:normal; color: var(--gold);}
+  .sub{color: var(--text-dim); font-size:1.05rem; max-width: 46ch; line-height:1.55; margin: 0 0 32px;}
+
+  .board{
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+    position:relative;
+    overflow:hidden;
+  }
+  .board::before{content:""; position:absolute; inset:0; background: repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(255,255,255,0.015) 39px); pointer-events:none;}
+  .board-top{display:flex; align-items:baseline; justify-content:space-between; gap: 12px; flex-wrap:wrap;}
+  .board-label{font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color: var(--text-dim);}
+  .board-live{display:flex; align-items:center; gap:6px; font-family:'Space Mono', monospace; font-size:0.68rem; color: var(--green); letter-spacing:0.1em;}
+  .board-live .pulse{width:6px; height:6px; border-radius:50%; background: var(--green); box-shadow:0 0 8px var(--green); animation: pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  .rate-display{display:flex; align-items:center; gap:18px; margin: 18px 0 6px; flex-wrap:wrap;}
+  .rate-digits{font-family:'Space Mono', monospace; font-size: clamp(2.6rem, 8vw, 4rem); font-weight:700; color: var(--text); letter-spacing:-0.01em; display:flex;}
+  .rate-digits .flip{display:inline-block; transition: transform 0.35s ease;}
+  .flip.changing{animation: flipnum 0.4s ease;}
+  @keyframes flipnum{0%{transform: translateY(0); opacity:1;}40%{transform: translateY(-8px); opacity:0.2;}60%{transform: translateY(8px); opacity:0.2;}100%{transform: translateY(0); opacity:1;}}
+  .rate-unit{font-family:'Inter',sans-serif; font-size:0.95rem; color: var(--text-dim); padding-bottom:8px;}
+  .rate-note{font-size:0.85rem; color: var(--text-dim); margin-top:6px;}
+  .rate-note b{color: var(--gold); font-weight:600;}
+
+  /* ---------- CALCULATOR ---------- */
+  section.calc{padding: 8px 0 48px;}
+  .calc-card{
+    background: var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding: 28px;
+  }
+  .calc-title{font-family:'Fraunces', serif; font-size:1.4rem; margin:0 0 4px; font-weight:600;}
+  .calc-sub{color: var(--text-dim); font-size:0.9rem; margin: 0 0 22px;}
+  .calc-grid{display:grid; grid-template-columns: 1fr auto 1fr; gap:16px; align-items:end;}
+  @media (max-width: 640px){.calc-grid{grid-template-columns: 1fr;}}
+  .field label{display:block; font-family:'Space Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color: var(--gold); margin-bottom:8px;}
+  .field .input-row{display:flex; align-items:center; background: var(--bg-deep); border:1px solid var(--line); border-radius:12px; padding: 0 16px; height:56px;}
+  .field .input-row span{color: var(--text-dim); font-family:'Space Mono', monospace; margin-right:8px;}
+  .field input{
+    background:none; border:none; outline:none; color: var(--text);
+    font-family:'Space Mono', monospace; font-size:1.3rem; width:100%; height:100%;
+  }
+  .field .result{font-size:1.3rem; font-weight:700; color: var(--gold);}
+  .arrow{display:flex; align-items:center; justify-content:center; height:56px; color: var(--text-dim); font-size:1.3rem;}
+  .calc-flag{margin-top:14px; font-size:0.82rem; color: var(--text-dim); min-height: 1.2em;}
+  .calc-flag.special{color: var(--gold);}
+
+  .send-row{display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;}
+  .btn{border:none; border-radius:100px; padding:14px 26px; font-weight:600; font-size:0.95rem; cursor:pointer; font-family:'Inter',sans-serif; display:inline-flex; align-items:center; gap:8px; transition: transform 0.15s ease, filter 0.15s ease;}
+  .btn:hover{transform: translateY(-1px); filter:brightness(1.08);}
+  .btn:active{transform: translateY(0);}
+  .btn-whatsapp{background:#25D366; color:#06301A;}
+  .btn-outline{background:transparent; color: var(--text); border:1px solid var(--line);}
+
+  /* ---------- TABLE ---------- */
+  section.table-sec{padding: 8px 0 56px;}
+  .table-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px; flex-wrap:wrap; gap:8px;}
+  .table-head h2{font-family:'Fraunces', serif; font-size:1.5rem; margin:0; font-weight:600;}
+  .tier-tag{font-family:'Space Mono', monospace; font-size:0.72rem; padding:5px 12px; border-radius:100px; border:1px solid var(--line); color: var(--text-dim);}
+  .rate-table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:14px; border:1px solid var(--line);}
+  .rate-table th, .rate-table td{padding:14px 18px; text-align:left; font-family:'Space Mono', monospace; font-size:0.92rem;}
+  .rate-table thead th{background: var(--surface); color: var(--gold); font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; font-family:'Inter',sans-serif; font-weight:600;}
+  .rate-table tbody tr{border-top:1px solid var(--line);}
+  .rate-table tbody tr:nth-child(odd){background: rgba(255,255,255,0.02);}
+  .rate-table td.bob{color: var(--gold); font-weight:700;}
+  .special-note{margin-top:14px; font-size:0.88rem; color: var(--text-dim); padding:14px 18px; border:1px dashed var(--line); border-radius:12px;}
+
+  /* ---------- HOW IT WORKS ---------- */
+  section.steps{padding: 8px 0 56px;}
+  .steps h2{font-family:'Fraunces', serif; font-size:1.5rem; margin:0 0 22px; font-weight:600;}
+  .steps-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;}
+  @media (max-width:720px){.steps-grid{grid-template-columns:1fr;}}
+  .step{background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px;}
+  .step .n{font-family:'Space Mono', monospace; color: var(--gold); font-size:0.8rem; margin-bottom:10px;}
+  .step h3{margin:0 0 8px; font-size:1rem; font-family:'Inter',sans-serif; font-weight:600;}
+  .step p{margin:0; font-size:0.88rem; color: var(--text-dim); line-height:1.5;}
+
+  /* ---------- ADMIN ---------- */
+  section.admin{padding: 8px 0 90px;}
+  .admin-toggle{background:none; border:1px solid var(--line); color: var(--text-dim); font-size:0.78rem; padding:8px 16px; border-radius:100px; cursor:pointer; font-family:'Space Mono', monospace;}
+  .admin-panel{display:none; margin-top:16px; background: var(--bg-deep); border:1px solid var(--line); border-radius:14px; padding:22px;}
+  .admin-panel.open{display:block;}
+  .admin-panel .row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px;}
+  .admin-panel .field2{flex:1; min-width:180px;}
+  .admin-panel label{display:block; font-size:0.72rem; color: var(--text-dim); margin-bottom:6px; font-family:'Space Mono', monospace;}
+  .admin-panel input{width:100%; background: var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; color:var(--text); font-family:'Space Mono', monospace; outline:none;}
+  .admin-save{margin-top:6px; background: var(--gold); color:#3a2404; border:none; padding:11px 22px; border-radius:100px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif;}
+  .admin-status{font-size:0.78rem; color: var(--green); margin-top:10px; min-height:1.2em;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding: 28px 0 40px;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; color: var(--text-dim); font-size:0.82rem;}
+
+  /* floating whatsapp */
+  .float-wa{position:fixed; bottom:22px; right:22px; z-index:60; background:#25D366; color:#06301A; width:58px; height:58px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(0,0,0,0.4); text-decoration:none; font-size:1.6rem;}
+
+  @media (prefers-reduced-motion: reduce){
+    .flip.changing{animation:none;}
+    .board-live .pulse{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>ENVÍOS <h1>BENITO SPA</h1> <span style="color:var(--text-dim); font-weight:400; font-size:0.85rem;"></span></div>
+    <button class="nav-cta" onclick="document.getElementById('calc').scrollIntoView({behavior:'smooth'})">Enviar ahora</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Envio · Chile → Bolivia</p>
+    <h1>Tu plata llega a Bolivia<br><em>al tiro y al mejor cambio.</em></h1>
+    <p class="sub">Envía pesos chilenos desde donde estés y tu familia lo recibe en bolivianos el mismo día. Sin filas, sin letra chica.</p>
+
+    <div class="board">
+      <div class="board-top">
+        <span class="board-label">Tasa de cambio vigente</span>
+        <span class="board-live"><span class="pulse"></span>Actualizado por Benito</span>
+      </div>
+      <div class="rate-display">
+        <span class="rate-digits" id="rateDigits">12.50</span>
+        <span class="rate-unit">Bs por cada 1.000 CLP</span>
+      </div>
+      <p class="rate-note">Desde <b>$50.000</b> el cambio es <b><span id="tier1Txt">12,40</span></b> · desde <b>$100.000</b> el cambio sube a <b><span id="tier2Txt">12,50</span></b>.</p>
+    </div>
+  </div>
+</header>
+
+<section class="calc" id="calc">
+  <div class="wrap">
+    <div class="calc-card">
+      <h3 class="calc-title">Calcula tu envío</h3>
+      <p class="calc-sub">Escribe el monto en pesos chilenos que quieres enviar.</p>
+      <div class="calc-grid">
+        <div class="field">
+          <label>Envías (CLP)</label>
+          <div class="input-row">
+            <span>$</span>
+            <input type="text" inputmode="numeric" id="clpInput" placeholder="100.000" value="100.000">
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="field">
+          <label>Recibe en Bolivia</label>
+          <div class="input-row">
+            <span class="result" id="bobResult">Bs 1.250</span>
+          </div>
+        </div>
+      </div>
+      <p class="calc-flag" id="calcFlag"></p>
+      <div class="send-row">
+        <button class="btn btn-whatsapp" id="waSendBtn">💬 Enviar por WhatsApp</button>
+        <button class="btn btn-outline" onclick="document.getElementById('tabla').scrollIntoView({behavior:'smooth'})">Ver tabla completa</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="table-sec" id="tabla">
+  <div class="wrap">
+    <div class="table-head">
+      <h2>Tabla de montos</h2>
+      <span class="tier-tag">Se actualiza sola con la tasa</span>
+    </div>
+    <table class="rate-table">
+      <thead>
+        <tr><th>Envías (CLP)</th><th>Recibe (BOB)</th><th>Tasa</th></tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <p class="special-note">Para montos sobre <b>$1.000.000</b> se cotiza precio especial. Escríbenos por WhatsApp y te confirmamos el mejor cambio.</p>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <div class="steps-grid">
+      <div class="step"><div class="n">01</div><h3>Calcula tu monto</h3><p>Escribe cuánto quieres enviar y mira al tiro cuántos bolivianos llegan.</p></div>
+      <div class="step"><div class="n">02</div><h3>Escríbenos por WhatsApp</h3><p>Con un clic se abre el chat con tu monto listo, para coordinar el pago y los datos del destinatario.</p></div>
+      <div class="step"><div class="n">03</div><h3>Tu familia recibe en Bolivia</h3><p>Confirmamos el envío y tu familia retira o recibe la transferencia el mismo día.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="admin">
+  <div class="wrap">
+    <button class="admin-toggle" id="adminToggle">⚙ Actualizar tasa del día</button>
+    <div class="admin-panel" id="adminPanel">
+      <div class="row">
+        <div class="field2">
+          <label>Tasa desde $50.000 (Bs por 1.000 CLP)</label>
+          <input type="text" id="rate1Input" value="12.40">
+        </div>
+        <div class="field2">
+          <label>Tasa desde $100.000 (Bs por 1.000 CLP)</label>
+          <input type="text" id="rate2Input" value="12.50">
+        </div>
+      </div>
+      <button class="admin-save" id="rateSaveBtn">Guardar y actualizar en la página</button>
+      <p class="admin-status" id="adminStatus"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Envíos Benito SPA — Chile 🇨🇱 → Bolivia 🇧🇴</span>
+    <span>Horario de atención: Lunes a sábado, 9:00–20:00</span>
+  </div>
+</footer>
+
+<a class="float-wa" id="floatWa" href="#" target="_blank" rel="noopener" title="Escríbenos por WhatsApp">💬</a>
+
+<script>
+  // ======= CONFIGURA AQUÍ TU NÚMERO DE WHATSAPP =======
+  // Formato: código de país + número, sin +, sin espacios. Ejemplo Chile: 56912345678
+  const WHATSAPP_NUMBER = "59167738428"; // Número de Benito (Bolivia, código 591)
+
+  let RATE1 = 0.0124; // tasa para 50.000 - 99.999
+  let RATE2 = 0.0125; // tasa para 100.000 en adelante
+  const TIER1_MIN = 50000;
+  const TIER2_MIN = 100000;
+  const SPECIAL_MIN = 1000000;
+
+  const fmtCLP = n => "$ " + Math.round(n).toLocaleString("es-CL");
+  const fmtBOB = n => "Bs " + Math.round(n).toLocaleString("es-CL");
+  const fmtRate = r => (r * 1000).toFixed(2).replace(".", ",");
+
+  function rateForAmount(clp){
+    if (clp >= TIER2_MIN) return RATE2;
+    if (clp >= TIER1_MIN) return RATE1;
+    return RATE1; // por defecto, bajo el mínimo también se muestra referencia
+  }
+
+  function updateBoard(){
+    const digitsEl = document.getElementById("rateDigits");
+    digitsEl.classList.add("changing");
+    setTimeout(()=>digitsEl.classList.remove("changing"), 400);
+    digitsEl.textContent = fmtRate(RATE2);
+    document.getElementById("tier1Txt").textContent = fmtRate(RATE1);
+    document.getElementById("tier2Txt").textContent = fmtRate(RATE2);
+  }
+
+  function parseCLP(str){
+    const digits = str.replace(/[^0-9]/g, "");
+    return digits ? parseInt(digits, 10) : 0;
+  }
+
+  function buildTable(){
+    const amounts1 = [50000,60000,70000,80000,90000];
+    const amounts2 = [100000,200000,300000,400000,500000,600000,700000,800000,900000];
+    let rows = "";
+    amounts1.forEach(a=>{
+      rows += `<tr><td>${fmtCLP(a)}</td><td class="bob">${fmtBOB(a*RATE1)}</td><td>${fmtRate(RATE1)}</td></tr>`;
+    });
+    amounts2.forEach(a=>{
+      rows += `<tr><td>${fmtCLP(a)}</td><td class="bob">${fmtBOB(a*RATE2)}</td><td>${fmtRate(RATE2)}</td></tr>`;
+    });
+    document.getElementById("tableBody").innerHTML = rows;
+  }
+
+  function updateWhatsappLink(clp, bob){
+    const msg = `Hola Benito, quiero enviar ${fmtCLP(clp)} a Bolivia. Según la página me llegan ${fmtBOB(bob)}. ¿Me pasas los datos para el envío?`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    document.getElementById("waSendBtn").onclick = () => window.open(url, "_blank");
+    document.getElementById("floatWa").href = url;
+  }
+
+  function recalc(){
+    const input = document.getElementById("clpInput");
+    const clp = parseCLP(input.value);
+    input.value = clp ? clp.toLocaleString("es-CL") : "";
+    const rate = rateForAmount(clp);
+    const bob = clp * rate;
+    document.getElementById("bobResult").textContent = clp ? fmtBOB(bob) : "Bs 0";
+
+    const flag = document.getElementById("calcFlag");
+    if (clp > 0 && clp < TIER1_MIN){
+      flag.textContent = `Monto mínimo de envío: ${fmtCLP(TIER1_MIN)}. Te mostramos el cambio de referencia.`;
+      flag.className = "calc-flag special";
+    } else if (clp >= SPECIAL_MIN){
+      flag.textContent = "Monto alto: te cotizamos un precio especial por WhatsApp.";
+      flag.className = "calc-flag special";
+    } else {
+      flag.textContent = `Tasa aplicada: ${fmtRate(rate)} Bs por cada 1.000 CLP.`;
+      flag.className = "calc-flag";
+    }
+    updateWhatsappLink(clp, bob);
+  }
+
+  document.getElementById("clpInput").addEventListener("input", recalc);
+
+  // ---------- Panel admin ----------
+  const adminToggle = document.getElementById("adminToggle");
+  const adminPanel = document.getElementById("adminPanel");
+  adminToggle.addEventListener("click", () => {
+    adminPanel.classList.toggle("open");
+  });
+
+  document.getElementById("rateSaveBtn").addEventListener("click", async () => {
+    const r1 = parseFloat(document.getElementById("rate1Input").value.replace(",", ".")) / 1000;
+    const r2 = parseFloat(document.getElementById("rate2Input").value.replace(",", ".")) / 1000;
+    const status = document.getElementById("adminStatus");
+    if (isNaN(r1) || isNaN(r2) || r1 <= 0 || r2 <= 0){
+      status.style.color = "var(--red)";
+      status.textContent = "Revisa los números que escribiste.";
+      return;
+    }
+    RATE1 = r1; RATE2 = r2;
+    updateBoard();
+    buildTable();
+    recalc();
+    try{
+      await window.storage.set("tasas_cambio_benito", JSON.stringify({rate1: RATE1, rate2: RATE2, updated: Date.now()}), true);
+      status.style.color = "var(--green)";
+      status.textContent = "Listo. La nueva tasa quedó guardada para todos los que visiten la página.";
+    }catch(e){
+      status.style.color = "var(--gold)";
+      status.textContent = "La tasa se actualizó en esta pantalla, pero no se pudo guardar para todos. Intenta de nuevo.";
+    }
+  });
+
+  async function loadSavedRate(){
+    try{
+      const res = await window.storage.get("tasas_cambio_benito", true);
+      if (res && res.value){
+        const data = JSON.parse(res.value);
+        if (data.rate1) RATE1 = data.rate1;
+        if (data.rate2) RATE2 = data.rate2;
+        document.getElementById("rate1Input").value = (RATE1*1000).toFixed(2);
+        document.getElementById("rate2Input").value = (RATE2*1000).toFixed(2);
+      }
+    }catch(e){
+      // no hay tasa guardada todavía, se usan los valores por defecto
+    }
+    updateBoard();
+    buildTable();
+    recalc();
+  }
+
+  loadSavedRate();
+</script>
+
+</body>
+</html>
